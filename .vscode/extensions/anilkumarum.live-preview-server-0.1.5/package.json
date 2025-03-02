@@ -1,0 +1,248 @@
+{
+	"name": "live-preview-server",
+	"displayName": "Live Preview Server",
+	"version": "0.1.5",
+	"description": "Dependency free native nodejs live preview server. Embedded live html preview. lightweight and ultra fast.",
+	"publisher": "anilkumarum",
+	"license": "GPL-3.0-only",
+	"icon": "logo.jpeg",
+	"galleryBanner": {
+		"color": "#9904be",
+		"theme": "dark"
+	},
+	"preview": true,
+	"bugs": {
+		"url": "https://github.com/anilkumarum/live-preview-server/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/anilkumarum/live-preview-server"
+	},
+	"author": {
+		"name": "anilkumarum",
+		"url": "https://github.com/anilkumarum"
+	},
+	"capabilities": {
+		"virtualWorkspaces": false,
+		"untrustedWorkspaces": {
+			"supported": false,
+			"description": "Live Preview runs a server to host workspace files."
+		}
+	},
+	"engines": {
+		"vscode": "^1.78.2"
+	},
+	"categories": [
+		"Other"
+	],
+	"keywords": [
+		"html",
+		"preview",
+		"live",
+		"browser",
+		"reload",
+		"refresh",
+		"live server",
+		"livepreview"
+	],
+	"main": "vscode-live-preview/out/extension.js",
+	"activationEvents": [
+		"onLanguage:html",
+		"onLanguage:css",
+		"onLanguage:javascript"
+	],
+	"contributes": {
+		"commands": [
+			{
+				"command": "livePreviewServer.start.inlinePreview",
+				"title": "Show preview",
+				"icon": "$(open-preview)",
+				"category": "LPS"
+			},
+			{
+				"command": "livePreviewServer.start.defaultBrowser",
+				"title": "Start preview in default browser",
+				"category": "LPS"
+			},
+			{
+				"command": "livePreviewServer.start.chromeBrowser",
+				"title": "Start preview in Chrome browser",
+				"category": "LPS"
+			},
+			{
+				"command": "livePreviewServer.start.firefoxBrowser",
+				"title": "Start preview in firefox browser",
+				"category": "LPS"
+			},
+			{
+				"command": "livePreviewServer.start.PickBrowser",
+				"title": "Pick browser from browser list",
+				"category": "LPS"
+			},
+			{
+				"command": "livePreviewServer.start.lpsServer",
+				"title": "Start live preview server",
+				"category": "LPS"
+			},
+			{
+				"command": "livePreviewServer.start.debugServer",
+				"title": "Start debug server",
+				"category": "LPS"
+			},
+			{
+				"command": "livePreviewServer.close.server",
+				"title": "Close live preview server",
+				"category": "LPS"
+			}
+		],
+		"menus": {
+			"editor/title": [
+				{
+					"command": "livePreviewServer.start.inlinePreview",
+					"when": "editorLangId == html && !notebookEditorFocused",
+					"group": "navigation"
+				}
+			],
+			"explorer/context": [
+				{
+					"command": "livePreviewServer.start.inlinePreview",
+					"when": "resourceLangId == html",
+					"group": "navigation"
+				}
+			]
+		},
+		"keybindings": [
+			{
+				"command": "livePreviewServer.start.inlinePreview",
+				"key": "ctrl+alt+v",
+				"when": "editorTextFocus",
+				"mac": "cmd+L cmd+I"
+			},
+			{
+				"command": "livePreviewServer.start.openBrowser",
+				"key": "alt+L alt+B",
+				"when": "editorTextFocus",
+				"mac": "cmd+L cmd+B"
+			},
+			{
+				"command": "livePreviewServer.start.debugServer",
+				"key": "ctrl+F10",
+				"when": "editorTextFocus",
+				"mac": "cmd+L cmd+B"
+			}
+		],
+		"configuration": {
+			"title": "Live Preview",
+			"properties": {
+				"livePreviewServer.config.liveRefresh": {
+					"type": "boolean",
+					"default": true,
+					"description": "toggle live refresh on change"
+				},
+				"livePreviewServer.config.customElementHMR": {
+					"type": "boolean",
+					"default": false,
+					"description": "toggle hmr on custom elements"
+				},
+				"livePreviewServer.config.serverPort": {
+					"type": "number",
+					"default": 2200,
+					"minimum": 2000,
+					"maximum": 65535,
+					"description": "Set Custom Port Number of Live Server. Set 0 if you want random port."
+				},
+				"livePreviewServer.config.baseDir": {
+					"type": "string",
+					"default": ".",
+					"description": "Change base directory"
+				},
+				"livePreviewServer.config.styleDir": {
+					"type": "string",
+					"default": ".",
+					"description": "Set stylesheet directory If you are using shadowRoot adoptedSheets"
+				},
+				"livePreviewServer.config.statusBarCommand": {
+					"type": "enum",
+					"enum": [
+						"livePreviewServer.start.defaultBrowser",
+						"livePreviewServer.start.PickBrowser"
+					],
+					"default": "livePreviewServer.start.defaultBrowser",
+					"description": "Update status bar onclick command"
+				},
+				"livePreviewServer.config.defaultBrowser": {
+					"enum": [
+						"Chrome",
+						"Firefox",
+						"Brave",
+						"Default"
+					],
+					"default": "Default",
+					"description": "Change default browser"
+				},
+				"livePreviewServer.config.toolTipBrowsers": {
+					"type": "array",
+					"default": [
+						"Chrome",
+						"Firefox",
+						"Other"
+					],
+					"description": "Add or remove Browser list in tooltip list"
+				},
+				"livePreviewServer.config.updateBrowserPath": {
+					"type": "object",
+					"default": {
+						"Chrome": "",
+						"Firefox": "",
+						"Brave": ""
+					},
+					"description": "add or edit browser path"
+				},
+				"livePreviewServer.config.compileTs": {
+					"type": "boolean",
+					"default": false,
+					"description": "Compile ts. import typescript with .ts extension"
+				},
+				"livePreviewServer.custom.quickPickBrowsers": {
+					"type": "object",
+					"default": {
+						"Brave": "default",
+						"Safari": "default",
+						"Chromium": "default",
+						"Edge": "default",
+						"Vivaldi": "default"
+					},
+					"description": "Add or remove Browser list in quick picks list. Object<browserName, browserPath>"
+				},
+				"livePreviewServer.custom.httpHeaders": {
+					"type": "object",
+					"default": null,
+					"description": "add own custom http headers in key:value format"
+				}
+			}
+		},
+		"taskDefinitions": [
+			{
+				"type": "Live Preview Server",
+				"properties": {
+					"workspacePath": {
+						"type": "string",
+						"description": "Live Preview Server task"
+					}
+				}
+			}
+		]
+	},
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"bundle": "esbuild ./vscode-live-preview/src/extension.js  --bundle --minify --outfile=./vscode-live-preview/out/extension.js --external:vscode --external:../../preview-server/build/server.js --format=cjs --platform=node"
+	},
+	"devDependencies": {
+		"@types/node": "^16.18.25",
+		"@types/vscode": "^1.78.0"
+	},
+	"__metadata": {
+		"installedTimestamp": 1739016814901,
+		"size": 247662
+	}
+}

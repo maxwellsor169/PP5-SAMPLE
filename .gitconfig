@@ -1,0 +1,10 @@
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[user]
+	name = atm2chx3@students.codeinstitute.net
+	email = atm2chx3@students.codeinstitute.net
+[credential "https://maxwellsor1-flaskprojec-kavnfdvnjwm.ws.codeinstitute-ide.net"]
+	provider = generic
